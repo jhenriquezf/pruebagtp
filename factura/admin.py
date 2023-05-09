@@ -1,6 +1,7 @@
-from django.contrib import admin
 from django.urls import path
+from django.contrib import admin
 from django.http import JsonResponse
+from django.views import View
 from .models import Producto, Factura, DetalleFactura
 
 class DetalleFacturaInline(admin.TabularInline):
@@ -16,12 +17,13 @@ class FacturaAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super().get_urls()
         custom_urls = [
-            path('get_producto_price/', self.get_producto_price, name='get_producto_price'),
+            path('get_producto_price/', self.admin_site.admin_view(self.get_producto_price), name='get_producto_price'),
         ]
+        print(urls)
+        print(custom_urls)
         return custom_urls + urls
 
-
-    def get_producto_price(request, object_id):
+    def get_producto_price(self, request):
         producto_id = request.GET.get('producto_id')
         try:
             producto = Producto.objects.only('precio_unitario').get(pk=producto_id)
@@ -34,9 +36,4 @@ class FacturaAdmin(admin.ModelAdmin):
     class Media:
         js = ['js/jquery.min.js', 'js/admin.js']
 
-admin.site.register(Producto)
 admin.site.register(Factura, FacturaAdmin)
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]

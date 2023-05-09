@@ -1,7 +1,8 @@
 from django.urls import path
-from .admin import get_producto_price
+#from factura import admin
+from . import views
+
 
 urlpatterns = [
-    path('<int:object_id>/get_producto_price/', get_producto_price, name='get_producto_price'),
+   path('get_producto_price/<int:producto_id>/', views.get_producto_price, name='get_producto_price'),
 ]
-
