@@ -16,11 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from factura.admin import FacturaAdmin
+from django.urls import include
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('get_producto_price/', FacturaAdmin.get_producto_price, name='get_producto_price'),
-
+    path('factura/', include('factura.urls')),
 ]
