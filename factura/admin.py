@@ -21,7 +21,7 @@ class FacturaAdmin(admin.ModelAdmin):
         return custom_urls + urls
 
 
-    def get_producto_price(self, request):
+    def get_producto_price(request, object_id):
         producto_id = request.GET.get('producto_id')
         try:
             producto = Producto.objects.only('precio_unitario').get(pk=producto_id)
